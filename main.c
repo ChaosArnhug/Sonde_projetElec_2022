@@ -20,8 +20,8 @@ void  TIMER1_isr(void)
 
 
 //communication avec port COM
-int flag_threshold = 0 //flag on si nouveau seuil
-char buffer[4] // 4 car cara dï¿½but trame + seuil (max = 999) ==> ex: @954 ou @001 ou @051
+int flag_threshold = 0; //flag on si nouveau seuil
+char buffer[4]; // 4 car cara dï¿½but trame + seuil (max = 999) ==> ex: @954 ou @001 ou @051
 int buf_compteur = 0;
 
 #INT_RDA
@@ -72,9 +72,9 @@ void main()
       //Attend que l'output se termine
       while(input(PIN_C1)){}
       stop_timer = 1;
-      duration = (int)(timer_overflow * 13.1)   //!!!!!!!!! MILISECONDE !!!!!!!!!!
+      duration = (int)(timer_overflow * 13.1);   //!!!!!!!!! MILISECONDE !!!!!!!!!!
       timer_overflow = 0;
-      distance = (int)(duration * 34)/2  // !!!!!! distance en centimetre !!!!!!!!!
+      distance = (int)(duration * 34)/2;  // !!!!!! distance en centimetre !!!!!!!!!
       
       //Affichage
       if (distance >= 1000 || distance < 0){ //Overflow ou distance négative = erreur
@@ -92,7 +92,7 @@ void main()
       else { //affichage en centimetre
       
          poids_fort = (int)distance / 10;
-         poids_faible = (int)distance % 10
+         poids_faible = (int)distance % 10;
          
          output_low(PIN_D7);
          output_b((poids_faible >> 4) + poids_fort);
@@ -113,7 +113,7 @@ void main()
    
       // Nouveau seuil
       if(flag_threshold){  //Calcul nouveau seuil (char - '0' => convert char to int)
-         threshold = ((buffer[1] - '0')*100) + ((buffer[2] - '0')*10) + (buffer[3] - '0')
+         threshold = ((buffer[1] - '0')*100) + ((buffer[2] - '0')*10) + (buffer[3] - '0');
          flag_threshold = 0; 
       } 
       
