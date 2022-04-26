@@ -43,7 +43,8 @@ void main()
    int threshold;
    int duration;
    int distance;
-
+   int poids_fort;
+   int poids_faible;
 
    setup_timer_1(T1_INTERNAL|T1_DIV_BY_1);      //13,1 ms overflow
 
@@ -55,7 +56,7 @@ void main()
 
    while(TRUE)
    {
-      //Initialization + ï¿½tre sure que trigger est off
+      //Initialization + être sure que trigger est off
       output_low(PIN_C0);
       delay_ms(10);
       
@@ -65,17 +66,37 @@ void main()
       output_low(PIN_C0);
       
       //Attend un output
-      while(!input(PIC_C0)){}
+      while(!input(PIN_C1)){}
       set_timer1(0);
       
       //Attend que l'output se termine
-      while(input(PIC_C0)){}
+      while(input(PIN_C1)){}
       stop_timer = 1;
       duration = (int)(timer_overflow * 13.1)   //!!!!!!!!! MILISECONDE !!!!!!!!!!
       timer_overflow = 0;
-      distance = (int)(duration * 34)/2  // !!!!!! distance en centimï¿½tre !!!!!!!!!
+      distance = (int)(duration * 34)/2  // !!!!!! distance en centimetre !!!!!!!!!
       
       //Affichage
+      if (distance >= 1000 || distance < 0){ //Overflow ou distance négative = erreur
+      
+         output_high(PIN_D7); //affiche juste un point 
+      }
+      else if (distance >= 100){ // affichage passe en metre
+         
+         poids_fort = (int)distance / 100;
+         poids_faible = (int)(distance % 100) / 10;
+         
+         output_high(PIN_D7);
+         output_b((poids_faible)>> 4 + poids_fort); //Decalage de 4 vers la doite à cause du montage physique et logique
+      }
+      else { //affichage en centimetre
+      
+         poids_fort = (int)distance / 10;
+         poids_faible = (int)distance % 10
+         
+         output_low(PIN_D7);
+         output_b((poids_faible)>> 4 + poids_fort);
+      }
       
       
       
