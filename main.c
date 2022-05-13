@@ -1,6 +1,5 @@
 #include <main.h>
 #include <stdio.h>
-#include <stdlib.h>
 #use rs232(baud=9600, xmit=PIN_C6, rcv=PIN_C7, ERRORS)
 
 //communication avec port COM
