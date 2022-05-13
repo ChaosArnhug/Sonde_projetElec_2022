@@ -83,8 +83,11 @@ void main()
       }
       
       // Nouveau seuil
-      if(flag_threshold){  //Calcul nouveau seuil (char - '0' => convert char to int)
-         threshold = ((int16)(buffer[1])*100) + ((int16)(buffer[2])*10) + (int16)(buffer[3]);
+      if(flag_threshold){  //Calcul nouveau seuil (char - 48 => convert char to int)
+         int16 a = buffer[1] - 48;
+         int16 b = buffer[2] - 48;
+         int16 c = buffer[3] - 48;
+         threshold = (int16)((a*100)+(b*10)+c);
          flag_threshold = 0;
 
       } 
@@ -106,8 +109,6 @@ void main()
        
       }
      
-      
-   
    }
 }
 
