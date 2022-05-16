@@ -4,16 +4,16 @@
 
 //communication avec port COM
 int flag_threshold = 0; //flag on si nouveau seuil
-char *buffer[4]; // 4 car cara d�but trame + seuil (max = 999) ==> ex: @954 ou @001 ou @051
+char *buffer[4]; // 4 car cara dï¿½but trame + seuil (max = 999) ==> ex: @954 ou @001 ou @051
 int buf_compteur = 0;
 char *trame_start = "@";
 
 #INT_RDA
 void  RDA_isr(void)
 {
-   buffer[buf_compteur] = getc();   //lis le caract�re � la position courante du flux de donn�es
+   buffer[buf_compteur] = getc();   //lis le caractï¿½re ï¿½ la position courante du flux de donnï¿½es
    trame_start = buffer[0];
-   if (strcmp(buffer[0], trame_start) == 0 && flag_threshold == 0){   //si trame commence par @ et qu'on ne traite pas d�j� un nouveau seuil
+   if (strcmp(buffer[0], trame_start) == 0 && flag_threshold == 0){   //si trame commence par @ et qu'on ne traite pas dï¿½jï¿½ un nouveau seuil
       buf_compteur ++;
       if (buf_compteur >= 4){    //Traitement quand buffer plein
          buf_compteur = 0;
@@ -38,7 +38,7 @@ void main()
 
    while(1)
    {
-      //Initialization + �tre sure que trigger est off
+      //Initialization + être sure que trigger est off
       output_low(PIN_C0);
       delay_ms(300);
       
@@ -58,7 +58,7 @@ void main()
       distance = (int16)(duration / 145);
       
           //Affichage
-      if (distance >= 1000){ //Overflow ou distance n�gative = erreur
+      if (distance >= 1000){ //Overflow ou distance négative = erreur
          output_b(0);
          output_high(PIN_D7); //affiche juste un point 
 
@@ -69,7 +69,7 @@ void main()
          poids_faible = (int)((distance % 100) / 10);
          
          output_high(PIN_D7);
-         output_b((poids_faible << 4) + poids_fort); //Decalage de 4 vers la doite � cause du montage physique et logique
+         output_b((poids_faible << 4) + poids_fort); //Decalage de 4 vers la doite à cause du montage physique et logique
  
       }
       else { //affichage en centimetre
